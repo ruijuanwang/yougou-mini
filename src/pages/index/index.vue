@@ -23,17 +23,18 @@
 </script>
 
 
-<style>
+<style lang='less' scoped>
 .search .search-input{
 	background-color: #ea4451;
 	padding: 20rpx 15rpx;
-}
-.search .search-input input{
-	background-color: #fff;
-	height: 60rpx;
-	border-radius: 5rpx;
-	font-size: 28rpx;
-	color: #ccc;
-	padding-left: 10rpx;
+		input {
+		background-color: #fff;
+		height: 60rpx;
+		border-radius: 5rpx;
+		font-size: 28rpx;
+		color: #ccc;
+		padding-left: 10rpx;
 }	
+}
+
 </style>
