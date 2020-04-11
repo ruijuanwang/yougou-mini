@@ -165,16 +165,25 @@
 
 		
 			// // ----------------------------------------第2种请求方式：promise方式 uniapp封装的
+			// async getSwiper(){
+			// 	const res = await uni.request({
+			// 		url:'https://www.uinav.com/api/public/v1/home/swiperdata',
+			// 	})
+			// 	// 请求成功 执行await下面的代码
+			// 	console.log(res);	 //res = [null, {…}]	
+			// 	//  res[0] 是 null 轮播图数据在 res[1].data中  
+			// }
+			// // ----------------------------------------使用我们在main.js中封装的请求方法
 			async getSwiper(){
-				const res = await uni.request({
-					url:'https://www.uinav.com/api/public/v1/home/swiperdata',
-				})
-				// 请求成功 执行await下面的代码
-				console.log(res);	 //res = [null, {…}]	
-				//  res[0] 是 null 轮播图数据在 res[1].data中  
-			}
-		
+			// 调用方法 传入options 请求参数对象 通过 this.http()调用
+			// 注意这里返回的是一个 promise 所以我们要用 async和 await
+				const res = await this.http({
+					url:'/api/public/v1/home/swiperdata' // 请求地址 只传后面的 因为封装的时候已经传入了基地址
+			})
+			// await 下面的 表示成功执行
+			console.log(res);
 			
+			}			
 		},
 		// 钩子函数 onLoad中获取数据
 			onLoad(){
