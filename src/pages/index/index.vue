@@ -191,19 +191,7 @@ import search from '@/components/search.vue' // 引入搜索组件
 
 
 <style lang='less' scoped>
-// 1.搜索
-.search .search-input{
-	background-color: #ea4451;
-	padding: 20rpx 15rpx;
-		input {
-		background-color: #fff;
-		height: 60rpx;
-		border-radius: 5rpx;
-		font-size: 28rpx;
-		color: #ccc;
-		padding-left: 10rpx;
-	}	
-}
+
 // 2.轮播图
 .swiper-box{
 	swiper{
