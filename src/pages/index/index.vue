@@ -63,7 +63,7 @@
 		</view>
 		<!-- 4.楼层 外面大盒子，里面有第三个楼层-->
 	     <view class="box">
-		<!-- 4.1 第1个楼层时尚女装  标题是尚女装是个图片，下面是五张图片点击可跳转 -->
+			<!-- 4.1 第1个楼层时尚女装  标题是尚女装是个图片，下面是五张图片点击可跳转 -->
 			<view class="floor">
 				<!-- 4.1.1标题 -->
 				<view class="floor-title">
@@ -89,7 +89,7 @@
 				</view>
 				
 			</view>
-		<!-- 4.2 第2个楼层 -->
+			<!-- 4.2 第2个楼层 -->
 			<view class="floor">
 				<!-- 4.2.1标题 -->
 				<view class="floor-title">
@@ -115,7 +115,7 @@
 				</view>
 				
 			</view>
-				<!-- 4.3 第3个楼层 -->
+			<!-- 4.3 第3个楼层 -->
 			<view class="floor">
 				<!-- 4.3.1标题 -->
 				<view class="floor-title">
@@ -148,6 +148,38 @@
 
 <script>
 	export default {
+		methods:{
+			// 请求轮播图的方法
+
+			// // ----------------------------------------第1种请求方式：回调的方法
+			// getSwiper(){
+			// 	// 调用接口 原生是wx.request({}) 这里要用 uni.request({}) 
+			// 	uni.request({
+			// 		url:'https://www.uinav.com/api/public/v1/home/swiperdata',
+			// 		method:'GET',
+			// 		success:(res)=>{
+			// 			console.log(res);						
+			// 		}
+
+			// 	})
+
+		
+			// // ----------------------------------------第2种请求方式：promise方式 uniapp封装的
+			async getSwiper(){
+				const res = await uni.request({
+					url:'https://www.uinav.com/api/public/v1/home/swiperdata',
+				})
+				// 请求成功 执行await下面的代码
+				console.log(res);	 //res = [null, {…}]	
+				//  res[0] 是 null 轮播图数据在 res[1].data中  
+			}
+		
+			
+		},
+		// 钩子函数 onLoad中获取数据
+			onLoad(){
+				this.getSwiper() // 获取轮播图数据
+			}
 	
 	}
 </script>
