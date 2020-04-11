@@ -130,6 +130,16 @@ import search from '@/components/search.vue' // 引入搜索组件
 				this.getSwiper() // 获取轮播图数据
 				this.getNavs() // 获取导航菜单数据
 				this.getFloors() // 获取楼层数据
+			},
+			// 下拉刷新触发该函数 和onLoad同级
+			onPullDownRefresh(){
+				// 我们应该就是 把所有数据 重新请求一遍 相当于 刷新了
+				this.getSwiper() // 获取轮播图数据
+				this.getNavs() // 获取导航菜单数据
+				this.getFloors() // 获取楼层数据
+				// 请求回来 关闭刷新
+				uni.stopPullDownRefresh ()
+				
 			}
 	
 	}
