@@ -246,26 +246,23 @@
         }
         // 五个图片
         .item {
-            padding: 20rpx 20rpx;
+            padding: 20rpx 15rpx;
             overflow: hidden; // 清除浮动 有高度
             navigator{
               float: left;
               margin-left: 10rpx;
               margin-bottom: 10rpx;
               width: 193rpx;
-              height: 188rpx;
-              image{
-                width: 100%;
-                height: 100%;
-              }
+              height: 188rpx;           
             }
             navigator:nth-child(1){
                 margin-left:0;
+                width: 232rpx;
                 height: 386rpx;
             }
             navigator:nth-child(2),
             navigator:nth-child(5){
-                width: 273rpx;
+                width: 272rpx;
             }
 
         }
@@ -274,7 +271,7 @@
     .floor:nth-child(1){
       .item{
         navigator{
-          width: 223rpx;
+          width: 233rpx;
         }
       }
        
