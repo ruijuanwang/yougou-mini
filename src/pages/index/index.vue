@@ -37,6 +37,33 @@
 				</swiper-item>
 		</swiper>
 		</view>
+		<!-- 3.导航菜单 -->
+		<view class="navs">
+			<!-- 导航组件包裹图片 点击图片要跳转  文字和图标是一张图片 -->
+			<!-- 第1个导航 -->
+			<navigator>
+				<image src="../../static/uploads/icon_index_nav_1@2x.png">
+				</image>
+			</navigator>
+			<!-- 第2个导航 -->
+			<navigator>
+				<image src="../../static/uploads/icon_index_nav_2@2x.png">
+				</image>
+			</navigator>
+			<!-- 第3个导航 -->
+			<navigator>
+				<image src="../../static/uploads/icon_index_nav_3@2x.png">
+				</image>
+			</navigator>
+			<!-- 第4个导航 -->
+			<navigator>
+				<image src="../../static/uploads/icon_index_nav_4@2x.png">
+				</image>
+			</navigator>
+
+
+
+		</view>
 	
 	</view>
 </template>
@@ -49,6 +76,7 @@
 
 
 <style lang='less' scoped>
+// 1.搜索
 .search .search-input{
 	background-color: #ea4451;
 	padding: 20rpx 15rpx;
@@ -71,5 +99,20 @@
 		height: 340rpx;
 	}
 }
-
+// 3.导航菜单
+.navs {
+   display: flex;
+   flex-wrap: wrap;
+   padding: 30rpx 0;
+   navigator{
+     width: 25%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     image {
+       width: 128rpx;
+       height: 140rpx;
+     }
+   }
+}
 </style>
