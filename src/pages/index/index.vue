@@ -60,10 +60,88 @@
 				<image src="../../static/uploads/icon_index_nav_4@2x.png">
 				</image>
 			</navigator>
-
-
-
 		</view>
+		<!-- 4.楼层 外面大盒子，里面有第三个楼层-->
+	     <view class="box">
+		<!-- 4.1 第1个楼层时尚女装  标题是尚女装是个图片，下面是五张图片点击可跳转 -->
+			<view class="floor">
+				<!-- 4.1.1标题 -->
+				<view class="floor-title">
+					<image src="../../static/uploads/pic_floor01_title.png"></image>
+				</view>
+				<!-- 4.1.2 五张图片 外面用一个view 里面 用导航包裹每一张图片 -->
+				<view class="item">
+					<navigator url="">
+						<image src="../../static/uploads/pic_floor01_1@2x.png"></image>
+					</navigator>
+					<navigator url="">
+						<image src="../../static/uploads/pic_floor01_2@2x.png"></image>
+					</navigator>
+					<navigator url="">
+						<image src="../../static/uploads/pic_floor01_3@2x.png"></image>
+					</navigator>
+					<navigator url="">
+						<image src="../../static/uploads/pic_floor01_4@2x.png"></image>
+					</navigator>
+					<navigator url="">
+						<image src="../../static/uploads/pic_floor01_5@2x.png"></image>
+					</navigator>
+				</view>
+				
+			</view>
+		<!-- 4.2 第2个楼层 -->
+			<view class="floor">
+				<!-- 4.2.1标题 -->
+				<view class="floor-title">
+					<image src="../../static/uploads/pic_floor01_1@2x.png"></image>
+				</view>
+				<!-- 4.2.2 五张图片 外面用一个view 里面 用导航包裹每一张图片 -->
+				<view class="item">
+					<navigator>
+                        <image src="../../static/uploads/pic_floor02_1@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor02_2@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor02_3@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor02_4@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor02_5@2x.png"></image>
+                    </navigator>
+				</view>
+				
+			</view>
+				<!-- 4.3 第3个楼层 -->
+			<view class="floor">
+				<!-- 4.3.1标题 -->
+				<view class="floor-title">
+					<image src="../../static/uploads/pic_floor02_title.png"></image>
+				</view>
+				<!-- 4.3.2 五张图片 外面用一个view 里面 用导航包裹每一张图片 -->
+				<view class="item">
+					<navigator>
+                        <image src="../../static/uploads/pic_floor03_1@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor03_2@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor03_3@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor03_4@2x.png"></image>
+                    </navigator>
+                    <navigator>
+                        <image src="../../static/uploads/pic_floor03_5@2x.png"></image>
+                    </navigator>
+				</view>
+				
+			</view>
+		 </view>
 	
 	</view>
 </template>
@@ -114,5 +192,51 @@
        height: 140rpx;
      }
    }
+}
+.box {
+    .floor {
+        .floor-title{
+          padding-top: 30rpx;
+          background-color: #f4f4f4;
+          image {
+            width: 750rpx;
+            height: 60rpx;
+          }
+        }
+        // 五个图片
+        .item {
+            padding: 20rpx 20rpx;
+            overflow: hidden; // 清除浮动 有高度
+            navigator{
+              float: left;
+              margin-left: 10rpx;
+              margin-bottom: 10rpx;
+              width: 193rpx;
+              height: 188rpx;
+              image{
+                width: 100%;
+                height: 100%;
+              }
+            }
+            navigator:nth-child(1){
+                margin-left:0;
+                height: 386rpx;
+            }
+            navigator:nth-child(2),
+            navigator:nth-child(5){
+                width: 273rpx;
+            }
+
+        }
+    }
+    // 处理 第一个floor 的 2 5 两张图片宽度
+    .floor:nth-child(1){
+      .item{
+        navigator{
+          width: 223rpx;
+        }
+      }
+       
+    }
 }
 </style>
