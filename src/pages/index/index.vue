@@ -1,17 +1,8 @@
 <template>
 <!-- 首页 -->
-	<view class="content">
-		<!--1. 搜索 -->
-		<view class="search">
-			<!-- 搜索框 -->
-			<view class="search-input">
-				<input type="text" placeholder="请输入要搜索的商品" >
-			</view>
-			<!-- 搜索内容 -->
-			<view class="search-content">
-			
-			</view>
-		</view>
+	<view class="index">
+		<!--1. 搜索 组件-->
+		<search></search>
 		<!--2. 轮播图 -->
 		<view class="swiper-box">
 			<!-- 轮播图组件  indicator-dots 显示圆圈 autoplay 自动播放 -->
@@ -147,7 +138,12 @@
 </template>
 
 <script>
+import search from '@/components/search.vue' // 引入搜索组件
 	export default {
+		// 注册组件
+		components:{
+			search  // 注册搜索组件
+		},
 		methods:{
 			// 请求轮播图的方法
 
