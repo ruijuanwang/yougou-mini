@@ -24,11 +24,19 @@ export default {
 		// 获取焦点的方法
 		goSearch(){
 			this.isfocus=true // 显示类名
-
+			// 2.获取焦点 触发自定义事件 传入屏幕高度给父组件 index首页
+			// this.$emit('my','500rpx')
+			// 我们传的高度是 屏幕的高度 不能写死
+			 var res= uni.getSystemInfoSync() // 获取小程序中屏幕的宽高 res是个信息对象
+			//  res.windowHeight // 就是我们要的高度 除了tabbar 屏幕的高度
+			this.$emit('my',res.windowHeight+'px')
+			
 		},
 		// 点击取消 
 		goCancel(){
 			this.isfocus=false //隐藏active 
+			// 2.触发自定义事件 高度height该为 auto
+			this.$emit('my','auto')
 		}
 	}
 

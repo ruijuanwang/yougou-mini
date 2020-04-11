@@ -1,8 +1,9 @@
 <template>
 <!-- 首页 -->
-	<view class="index">
+	<view class="index" :style="{overflow:'hidden',height:h}">
 		<!--1. 搜索 组件-->
-		<search></search>
+		<!-- 接收自定义事件并且接收参数 -->
+		<search @my="getHeight"></search>
 		<!--2. 轮播图 -->
 		<view class="swiper-box">
 			<!-- 轮播图组件  indicator-dots 显示圆圈 autoplay 自动播放 -->
@@ -144,7 +145,18 @@ import search from '@/components/search.vue' // 引入搜索组件
 		components:{
 			search  // 注册搜索组件
 		},
+		data(){
+			return{
+				h:'auto' // 绑定 height 默认auto
+
+			}
+		},
 		methods:{
+			// h接收子传来的值
+			getHeight(h){
+				this.h=h // 给到data中的高度height
+
+			},
 			// 请求轮播图的方法
 
 			// // ----------------------------------------第1种请求方式：回调的方法
