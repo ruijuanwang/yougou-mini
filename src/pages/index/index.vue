@@ -8,23 +8,11 @@
 		<view class="swiper-box">
 			<!-- 轮播图组件  indicator-dots 显示圆圈 autoplay 自动播放 -->
 			<swiper indicator-dots :autoplay="true" >
-				<!-- 第一个轮播图 -->
-				<swiper-item>  
+				<!-- 轮播图 循环生成-->
+				<swiper-item v-for="(item,index) in swiperdata" :key="index">  
 					<!-- 点击图片要跳转 要用导航组件包裹 -->
-					<navigator url="">
-						<image src="../../static/uploads/banner1.png"></image>
-					</navigator>
-				</swiper-item>
-				<!-- 第二个轮播图 -->
-				<swiper-item>  
-					<navigator url="">
-						<image src="../../static/uploads/banner2.png"></image>
-					</navigator>
-				</swiper-item>
-				<!-- 第三个轮播图 -->
-				<swiper-item>  
-					<navigator url="">
-						<image src="../../static/uploads/banner3.png"></image>
+					<navigator url="/pages/goods/index">
+						<image :src="item.image_src"></image>
 					</navigator>
 				</swiper-item>
 		</swiper>
@@ -32,106 +20,26 @@
 		<!-- 3.导航菜单 -->
 		<view class="navs">
 			<!-- 导航组件包裹图片 点击图片要跳转  文字和图标是一张图片 -->
-			<!-- 第1个导航 -->
-			<navigator>
-				<image src="../../static/uploads/icon_index_nav_1@2x.png">
-				</image>
-			</navigator>
-			<!-- 第2个导航 -->
-			<navigator>
-				<image src="../../static/uploads/icon_index_nav_2@2x.png">
-				</image>
-			</navigator>
-			<!-- 第3个导航 -->
-			<navigator>
-				<image src="../../static/uploads/icon_index_nav_3@2x.png">
-				</image>
-			</navigator>
-			<!-- 第4个导航 -->
-			<navigator>
-				<image src="../../static/uploads/icon_index_nav_4@2x.png">
+			<!-- 循坏导航 -->
+			<navigator v-for="(item,index) in navslist" :key="index" url="/pages/category/index">
+				<image :src="item.image_src">
 				</image>
 			</navigator>
 		</view>
 		<!-- 4.楼层 外面大盒子，里面有第三个楼层-->
 	     <view class="box">
 			<!-- 4.1 第1个楼层时尚女装  标题是尚女装是个图片，下面是五张图片点击可跳转 -->
-			<view class="floor">
+			<view v-for="(item,index) in floors" :key="index" class="floor">
 				<!-- 4.1.1标题 -->
 				<view class="floor-title">
-					<image src="../../static/uploads/pic_floor01_title.png"></image>
+					<image :src="item.floor_title.image_src"></image>
 				</view>
 				<!-- 4.1.2 五张图片 外面用一个view 里面 用导航包裹每一张图片 -->
 				<view class="item">
-					<navigator url="">
-						<image src="../../static/uploads/pic_floor01_1@2x.png"></image>
+					<navigator v-for="pro in item.product_list"  :key="pro"  url="">
+						<image :src="pro.image_src"></image>
 					</navigator>
-					<navigator url="">
-						<image src="../../static/uploads/pic_floor01_2@2x.png"></image>
-					</navigator>
-					<navigator url="">
-						<image src="../../static/uploads/pic_floor01_3@2x.png"></image>
-					</navigator>
-					<navigator url="">
-						<image src="../../static/uploads/pic_floor01_4@2x.png"></image>
-					</navigator>
-					<navigator url="">
-						<image src="../../static/uploads/pic_floor01_5@2x.png"></image>
-					</navigator>
-				</view>
-				
-			</view>
-			<!-- 4.2 第2个楼层 -->
-			<view class="floor">
-				<!-- 4.2.1标题 -->
-				<view class="floor-title">
-					<image src="../../static/uploads/pic_floor01_1@2x.png"></image>
-				</view>
-				<!-- 4.2.2 五张图片 外面用一个view 里面 用导航包裹每一张图片 -->
-				<view class="item">
-					<navigator>
-                        <image src="../../static/uploads/pic_floor02_1@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor02_2@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor02_3@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor02_4@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor02_5@2x.png"></image>
-                    </navigator>
-				</view>
-				
-			</view>
-			<!-- 4.3 第3个楼层 -->
-			<view class="floor">
-				<!-- 4.3.1标题 -->
-				<view class="floor-title">
-					<image src="../../static/uploads/pic_floor02_title.png"></image>
-				</view>
-				<!-- 4.3.2 五张图片 外面用一个view 里面 用导航包裹每一张图片 -->
-				<view class="item">
-					<navigator>
-                        <image src="../../static/uploads/pic_floor03_1@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor03_2@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor03_3@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor03_4@2x.png"></image>
-                    </navigator>
-                    <navigator>
-                        <image src="../../static/uploads/pic_floor03_5@2x.png"></image>
-                    </navigator>
-				</view>
-				
+				</view>				
 			</view>
 		 </view>
 	
@@ -147,8 +55,10 @@ import search from '@/components/search.vue' // 引入搜索组件
 		},
 		data(){
 			return{
-				h:'auto' // 绑定 height 默认auto
-
+				h:'auto' ,// 绑定 height 默认auto
+				swiperdata:[], // 接收轮播图的数组
+				navslist:[], // 接收导航九宫格菜单 数据
+				floors:[] // 接收楼层数据
 			}
 		},
 		methods:{
@@ -182,6 +92,7 @@ import search from '@/components/search.vue' // 引入搜索组件
 			// 	//  res[0] 是 null 轮播图数据在 res[1].data中  
 			// }
 			// // ----------------------------------------使用我们在main.js中封装的请求方法
+			// 1.发送请求 获取轮播图数据
 			async getSwiper(){
 			// 调用方法 传入options 请求参数对象 通过 this.http()调用
 			// 注意这里返回的是一个 promise 所以我们要用 async和 await
@@ -189,13 +100,36 @@ import search from '@/components/search.vue' // 引入搜索组件
 					url:'/api/public/v1/home/swiperdata' // 请求地址 只传后面的 因为封装的时候已经传入了基地址
 			})
 			// await 下面的 表示成功执行
-			console.log(res);
-			
+			console.log("轮播图数据：",res);
+			this.swiperdata=res.message // 轮播图数组赋值到data数组中			
+			},
+			// 2.发送请求 获取导航九宫格数据
+			async getNavs(){
+				// 用自己封装的发送请求
+				const res = await this.http({
+					 url:"/api/public/v1/home/catitems"
+				})
+				// await 下面 表示执行成功
+				console.log('导航菜单',res);
+				this.navslist=res.message // 导航菜单数据给到data数组中
+				
+			},
+			// 3.发送请求 获取楼层数据
+			async getFloors(){
+				const res= await this.http({
+					 url:"/api/public/v1/home/floordata"
+				})
+				// await 下面 成功执行
+				console.log("楼层数据",res);
+				this.floors=res.message // 楼层数据给到data数组中
+				
 			}			
 		},
 		// 钩子函数 onLoad中获取数据
 			onLoad(){
 				this.getSwiper() // 获取轮播图数据
+				this.getNavs() // 获取导航菜单数据
+				this.getFloors() // 获取楼层数据
 			}
 	
 	}
