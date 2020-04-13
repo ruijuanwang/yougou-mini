@@ -42,7 +42,8 @@
 				</view>				
 			</view>
 		 </view>
-	
+	<!-- 回到顶部 -->
+    <view v-if="scrollTop>0" @click="goTop" class="goTop icon-top"></view>
 	</view>
 </template>
 
@@ -58,10 +59,18 @@ import search from '@/components/search.vue' // 引入搜索组件
 				h:'auto' ,// 绑定 height 默认auto
 				swiperdata:[], // 接收轮播图的数组
 				navslist:[], // 接收导航九宫格菜单 数据
-				floors:[] // 接收楼层数据
+				floors:[], // 接收楼层数据
+				scrollTop:0 // 页面滚动离顶部距离
 			}
 		},
 		methods:{
+			// 滚动到顶部
+			goTop(){
+				// wx回到顶部的方法
+				uni.pageScrollTo({
+					scrollTop:0 // 滚动顶部
+				})
+			},
 			// h接收子传来的值
 			getHeight(h){
 				this.h=h // 给到data中的高度height
@@ -140,13 +149,19 @@ import search from '@/components/search.vue' // 引入搜索组件
 				// 请求回来 关闭刷新
 				uni.stopPullDownRefresh ()
 				
-			}
+			},
+			// 监听页面滚动，判断滚动距离  和onLoad同级
+			onPageScroll(obj){ // 页面滚动会触发
+				console.log(obj); // onj 中的 scrollTop 就是距离top的距离
+				this.scrollTop=obj.scrollTop // 赋值到data中
+				
+			} 
 	
 	}
 </script>
 
 
-<style lang='less' scoped>
+<style lang='scss' scoped>
 
 // 2.轮播图
 .swiper-box{
@@ -217,4 +232,23 @@ import search from '@/components/search.vue' // 引入搜索组件
        
     }
 }
+ // 回到顶部
+  .goTop {
+    position: fixed;
+    bottom: 30rpx;
+    /* #ifdef H5 */
+    bottom: 65px;
+    /* #endif */
+    right: 30rpx;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100rpx;
+    height: 100rpx;
+    font-size: 48rpx;
+    color: #666;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
 </style>
