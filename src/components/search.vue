@@ -18,10 +18,10 @@
       </div>
       <!-- 联想搜索 结果 -->
 	  <!-- 有联想搜索的时候就显示 不然不显示 -->
-      <!-- <scroll-view scroll-y class="result"> -->
+      <scroll-view v-if="list.length" scroll-y class="result">
 		  <!-- 循环渲染 联想搜索 -->
-        <!-- <navigator v-for="item in list" :key="item.goods_id" url="/pages/goods/index">{{item.goods_name}}</navigator>
-      </scroll-view> -->
+        <navigator v-for="item in list" :key="item.goods_id" url="/pages/goods/index">{{item.goods_name}}</navigator>
+      </scroll-view>
     </div>
   </div>
 </template>
