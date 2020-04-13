@@ -109,7 +109,7 @@ import search from '@/components/search.vue' // 引入搜索组件
 					url:'/api/public/v1/home/swiperdata' // 请求地址 只传后面的 因为封装的时候已经传入了基地址
 			})
 			// await 下面的 表示成功执行
-			console.log("轮播图数据：",res);
+			// console.log("轮播图数据：",res);
 			this.swiperdata=res.message // 轮播图数组赋值到data数组中			
 			},
 			// 2.发送请求 获取导航九宫格数据
@@ -119,7 +119,7 @@ import search from '@/components/search.vue' // 引入搜索组件
 					 url:"/api/public/v1/home/catitems"
 				})
 				// await 下面 表示执行成功
-				console.log('导航菜单',res);
+				// console.log('导航菜单',res);
 				this.navslist=res.message // 导航菜单数据给到data数组中
 				
 			},
@@ -129,7 +129,7 @@ import search from '@/components/search.vue' // 引入搜索组件
 					 url:"/api/public/v1/home/floordata"
 				})
 				// await 下面 成功执行
-				console.log("楼层数据",res);
+				// console.log("楼层数据",res);
 				this.floors=res.message // 楼层数据给到data数组中
 				
 			}			
@@ -152,7 +152,7 @@ import search from '@/components/search.vue' // 引入搜索组件
 			},
 			// 监听页面滚动，判断滚动距离  和onLoad同级
 			onPageScroll(obj){ // 页面滚动会触发
-				console.log(obj); // onj 中的 scrollTop 就是距离top的距离
+				// console.log(obj); // onj 中的 scrollTop 就是距离top的距离
 				this.scrollTop=obj.scrollTop // 赋值到data中
 				
 			} 
