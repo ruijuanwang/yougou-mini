@@ -9,21 +9,19 @@
     </div>
     <!-- 搜索结果 -->
     <div class="search-content">
-      <div class="title">搜索历史<span class="clear"></span></div>
-      <div class="history">
-        <navigator url="/pages/list/index">小米</navigator>
-        <navigator url="/pages/list/index">智能电视</navigator>
-        <navigator url="/pages/list/index">小米空气净化器</navigator>
-        <navigator url="/pages/list/index">西门子洗碗机</navigator>
-        <navigator url="/pages/list/index">华为手机</navigator>
-        <navigator url="/pages/list/index">苹果</navigator>
-        <navigator url="/pages/list/index">锤子</navigator>
+		<!-- removeHistory : 清空历史记录方法 -->
+      <div class="title">搜索历史<span @click="removeHistory" class="clear"></span></div>
+      <div class="history" >
+	    <!-- 循环历史记录 -->
+        <navigator v-for="item in history" :key="item"  url="/pages/list/index">{{ item }}</navigator>
+        
       </div>
       <!-- 联想搜索 结果 -->
-      <scroll-view scroll-y class="result">
+	  <!-- 有联想搜索的时候就显示 不然不显示 -->
+      <!-- <scroll-view scroll-y class="result"> -->
 		  <!-- 循环渲染 联想搜索 -->
-        <navigator v-for="item in list" :key="item.goods_id" url="/pages/goods/index">{{item.goods_name}}</navigator>
-      </scroll-view>
+        <!-- <navigator v-for="item in list" :key="item.goods_id" url="/pages/goods/index">{{item.goods_name}}</navigator>
+      </scroll-view> -->
     </div>
   </div>
 </template>
@@ -35,13 +33,30 @@
         isfocus: false,
         placeholder: '',
 		keyword:'', // 输入框内容
-		list:[] // 接收联想搜索的内容
+		list:[], // 接收联想搜索的内容
+		history: uni.getStorageSync('history') || [] // 搜索过的关键字 使用短路表达式从本地缓存获取
       }
     },
     methods: {
+		// 点击 × 清空历史记录 事件
+		removeHistory(){
+			// 1. 本地清空历史记录  
+			this.history=[]
+			// 2.清空本地缓存的历史记录 uni.removeStorageSync('键名')
+			uni.removeStorageSync('history')
+		},
 		// 回车触发的事件
 		goList(){
-			// 应该跳到跳转到商品列表页面  并携带文本框的关键字为参数
+			// 2.回车 把搜索关键字加入到data历史搜索中
+		    this.history.push(this.keyword)
+			this.keyword='' // 回车清空输入框
+			// 历史记录去重
+			this.history=[...new Set(this.history)]
+			// 存入本地缓存  (注意 要把历史纪录 取出来渲染页面)
+			// wx.setStorage('键名','值可以是任何类型')
+			uni.setStorageSync('history',this.history)
+			
+			// 1.应该跳到跳转到商品列表页面  并携带文本框的关键字为参数
 			// wx.navigateTo 小程序中的js跳转
 			uni.navigateTo({
 				url:'/pages/list/index?query='+this.keyword // 跳转的地址?参数
@@ -72,7 +87,11 @@
         // 隐藏tabBar
         uni.hideTabBar();
       },
+	//   点击取消事件 
       goCancel () {
+		//   1.清空输入框 2.清空联想搜索列表
+		this.keyword='' //清空输入框
+		this.list=[] // 清空联想搜索列表
         // 取消 isfocus false 加上 active
         this.isfocus=false;
 
