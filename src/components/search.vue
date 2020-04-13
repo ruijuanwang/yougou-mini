@@ -4,7 +4,7 @@
     <!-- 搜索框 -->
     <div class="input-wrap" @click="goSearch">
 		<!-- 双向绑定输入框 confirm :小程序的回车事件-->
-    <input v-model="keyword" @input="query" type="text" placeholder="请输入要搜索的商品" >
+    <input @confirm="goList" v-model="keyword" @input="query" type="text" placeholder="请输入要搜索的商品" >
       <span class="cancle" @click.stop="goCancel">取消</span>
     </div>
     <!-- 搜索结果 -->
@@ -39,7 +39,14 @@
       }
     },
     methods: {
-	
+		// 回车触发的事件
+		goList(){
+			// 应该跳到跳转到商品列表页面  并携带文本框的关键字为参数
+			// wx.navigateTo 小程序中的js跳转
+			uni.navigateTo({
+				url:'/pages/list/index?query='+this.keyword // 跳转的地址?参数
+			})
+		},
 	  	// 输入框发生变化的时候执行
 		async query(){
 			// 调用接口 获取联想数据

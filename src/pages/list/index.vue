@@ -76,6 +76,11 @@
           url: '/pages/goods/index'
         })
       }
+    },
+    onLoad(params){
+      // params 搜索回车传来的搜索关键字 
+      console.log('参数',params);
+      
     }
   }
 </script>
