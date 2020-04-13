@@ -3,7 +3,8 @@
   <div class="search" :class="{active: isfocus}">
     <!-- 搜索框 -->
     <div class="input-wrap" @click="goSearch">
-      <input type="text" placeholder="请输入搜索商品">
+		<!-- 双向绑定输入框 confirm :小程序的回车事件-->
+    <input v-model="keyword" @input="query" type="text" placeholder="请输入要搜索的商品" >
       <span class="cancle" @click.stop="goCancel">取消</span>
     </div>
     <!-- 搜索结果 -->
@@ -18,26 +19,10 @@
         <navigator url="/pages/list/index">苹果</navigator>
         <navigator url="/pages/list/index">锤子</navigator>
       </div>
-      <!-- 结果 -->
+      <!-- 联想搜索 结果 -->
       <scroll-view scroll-y class="result">
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
+		  <!-- 循环渲染 联想搜索 -->
+        <navigator v-for="item in list" :key="item.goods_id" url="/pages/goods/index">{{item.goods_name}}</navigator>
       </scroll-view>
     </div>
   </div>
@@ -48,17 +33,33 @@
     data () {
       return {
         isfocus: false,
-        placeholder: ''
+        placeholder: '',
+		keyword:'', // 输入框内容
+		list:[] // 接收联想搜索的内容
       }
     },
     methods: {
+	
+	  	// 输入框发生变化的时候执行
+		async query(){
+			// 调用接口 获取联想数据
+			const res=await this.http({
+				url:"/api/public/v1/goods/qsearch",
+				data:{
+					query:this.keyword // 传入data参数 是当前文本框输入的关键字
+				}
+			})
+			// await 下面 执行成功
+			// console.log(res);
+			this.list=res.message // 结果赋值给data中
+		},
       goSearch (ev) {
         // 获取焦点 isfocus true 加上 active
         this.isfocus=true;
         // 获取屏幕高度 微信提供了
         // wx. ---》换成 uni. 就行
         let res= uni.getSystemInfoSync()
-        console.log('结果',res)
+        // console.log('结果',res)
         this.$emit("my",res.windowHeight+'px')
 
         // 隐藏tabBar
