@@ -88,9 +88,11 @@
         console.log('商品详情',res);
         this.goods = res.message // 商品详情数据赋值到data数组中       
       },
+      // 点击购物车触发事件
       goCart () {
+        // 应该跳转到购物车页面 由于购物车页面是 底部tabbar 的其中一个页面 所以跳转必须用 uni.switchTab({})
         uni.switchTab({
-          url: '/pages/cart/index'
+          url: '/pages/cart/index' // 跳转购物车页面
         })
       },
       createOrder () {
