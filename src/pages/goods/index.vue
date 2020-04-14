@@ -23,7 +23,7 @@
       <!-- open-type属性值为"contact" 点击后就会进入客服会话 -->
       <button open-type="contact" class="icon-handset">联系客服</button>
       <text class="cart icon-cart" @click="goCart">购物车</text>
-      <text class="add">加入购物车</text>
+      <text @click="addCard" class="add">加入购物车</text>
       <text class="buy" @click="createOrder">立即购买</text>
     </view>
   </view>
@@ -34,10 +34,47 @@
     data(){
       return{
         goodId:0, // 商品id
-        goods:null  // 用来接收商品详情数据 是个数组[]
+        goods:null,  // 用来接收商品详情数据 是个数组[]
+        cards:uni.getStorageSync('cards') || [] // 存储购物车的信息, 本地有就用本地的 本地没有就用空数组
       }
     },
     methods: {
+      // 点击 加入购物车触发事件
+      addCard(){
+        // 当点击加入购物车 应该是调用购物车的接口 但是后端没有提供接口，所以加入到本地localstorage
+        // 1. 商品信息太多，没必要都加入到本地缓存中 只需要把当前需要的信息 从商品信息里解构出来 加入到cards数组中 存储到本地
+        // let { 商品id, 商品价格, 商品名称, 商品图片 } = this.goods
+        let { goods_id, goods_price, goods_name, goods_small_logo } = this.goods // 解构需要的商品
+        // 2. push之前，我们得判断 这件商品之前有没有加入到过购物车如果有 就把他的数量+1 => goods_number+1
+        // 通过 findIndex 遍历 cards 数组 通过goods_id 来判断 
+        const index = this.cards.findIndex(item=> {
+          // 判断商品 id 是否和 当前商品id 一样
+          return item.goods_id === this.goods.goods_id  
+          // 找到会返回一个找到的索引 没找到 返回-1
+        })
+        // 3.判断 返回值是不是 -1 如果是 说明购物车没有此商品 那就应该把它 push 进去
+        if( index === -1 ){
+          // 说明 没找到
+          this.cards.push({
+          goods_id,
+          goods_price,
+          goods_name,
+          goods_small_logo,
+          goods_number:1, // 数量 默认加一条数据
+          goods_checked:true // 需要通过他来判断当前商品在购物车页面是否勾选
+        })       
+        }else{
+          // 说明找到了 购物车有这个商品 我们应该把数量 +1
+          // 怎么找 这个 商品 就是 我们找到的这个索引项 就是它的 goods_id
+          this.cards[index].goods_number+=1 // 数量 +1
+        }
+         // 4. 把购物车信息存到本地缓存
+        //  uni.setStorageSync("键名",值)
+        uni.setStorageSync("cards",this.cards)
+        // 5.提示加入成功的信息
+        uni.showToast({title:'加入购物车成功'})
+       
+      },
       // 通过id 获取详情页的数据方法
       async getGoodsDetail(){
         // 调用接口
