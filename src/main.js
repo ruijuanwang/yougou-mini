@@ -9,6 +9,7 @@ Vue.prototype.http=async function(options){
   // 发送之前loading
   uni.showLoading({
     title: '加载中',
+    mask:true // 打开遮罩层 页面就不能被点击
   })
   let baseURL="https://www.uinav.com"
 
