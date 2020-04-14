@@ -2,32 +2,21 @@
   <view class="wrapper">
     <!-- 商品图片 -->
     <swiper class="pics" indicator-dots indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#fff">
-      <swiper-item>
-        <image src="http://static.botue.com/ugo/uploads/detail_1.jpg"></image>
-      </swiper-item>
-      <swiper-item>
-        <image src="http://static.botue.com/ugo/uploads/detail_2.jpg"></image>
-      </swiper-item>
-      <swiper-item>
-        <image src="http://static.botue.com/ugo/uploads/detail_3.jpg"></image>
-      </swiper-item>
-      <swiper-item>
-        <image src="http://static.botue.com/ugo/uploads/detail_4.jpg"></image>
-      </swiper-item>
-      <swiper-item>
-        <image src="http://static.botue.com/ugo/uploads/detail_5.jpg"></image>
+      <!-- 循环渲染轮播图  -->
+      <swiper-item v-for="item in goods.pics" :key="item.goods_id">
+        <image :src="item.pics_big_url"></image>
       </swiper-item>
     </swiper>
     <!-- 基本信息 -->
     <view class="meta">
-      <view class="price">￥199</view>
-      <view class="name">初语秋冬新款毛衣女 套头宽松针织衫简约插肩袖上衣</view>
+      <view class="price">￥{{ goods.goods_price }}</view>
+      <view class="name">{{ goods.goods_name }}</view>
       <view class="shipment">快递: 免运费</view>
       <text class="collect icon-star">收藏</text>
     </view>
     <!-- 商品详情 -->
     <view class="detail">
-      <rich-text></rich-text>
+      <rich-text :nodes="goods.goods_introduce"></rich-text>
     </view>
     <!-- 操作 -->
     <view class="action">
@@ -43,10 +32,24 @@
   export default {
     data(){
       return{
-        goodId:null // 商品id
+        goodId:0, // 商品id
+        goods:null  // 用来接收商品详情数据 是个数组[]
       }
     },
     methods: {
+      // 通过id 获取详情页的数据方法
+      async getGoodsDetail(){
+        // 调用接口
+        const res = await this.http({
+          url:"/api/public/v1/goods/detail",
+          data:{
+            goods_id:this.goodId // 传入data参数 商品id
+          }
+        })
+        // await 下面 成功执行
+        console.log('商品详情',res);
+        this.goods = res.message // 商品详情数据赋值到data数组中       
+      },
       goCart () {
         uni.switchTab({
           url: '/pages/cart/index'
@@ -58,10 +61,13 @@
         })
       }
     },
-    onLoad(id){
+    onLoad(params){
       // 接收商品id
-      console.log('商品id：',id);
-      this.goodId=id // 商品id赋值到data
+      console.log('商品id：',params.id);
+      this.goodId=params.id // 商品id赋值到data
+      // 2. 获取商品详情
+      this.getGoodsDetail()
+     
       
     }
   }
