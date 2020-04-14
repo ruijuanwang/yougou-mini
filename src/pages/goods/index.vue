@@ -41,7 +41,11 @@
 
 <script>
   export default {
-
+    data(){
+      return{
+        goodId:null // 商品id
+      }
+    },
     methods: {
       goCart () {
         uni.switchTab({
@@ -53,6 +57,12 @@
           url: '/pages/order/index'
         })
       }
+    },
+    onLoad(id){
+      // 接收商品id
+      console.log('商品id：',id);
+      this.goodId=id // 商品id赋值到data
+      
     }
   }
 </script>

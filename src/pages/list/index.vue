@@ -9,7 +9,7 @@
     <!-- 商品列表 -->
     <view class="goods">
       <!-- 循环goodsList 数据 生成商品列表数据 -->
-      <view v-for="item in goodsList" :key="item.goods_id" class="item" @click="goDetail">
+      <view v-for="item in goodsList" :key="item.goods_id" class="item" @click="goDetail(item.goods_id)">
         <!-- 商品图片 -->
         <image class="pic" :src="item.goods_small_logo"></image>
         <!-- 商品信息 -->
@@ -48,6 +48,14 @@
       }
     },
     methods:{
+      // 点击商品列表时触发
+      goDetail(id){
+        // 应该跳转详情页
+        // 使用uni.navigateTo跳转详情页  携带当前点击商品的id
+        uni.navigateTo({
+          url:`/pages/goods/index?id=${id}` //携带商品id
+        })
+      },
       // 获取商品列表数据方法
       async getGoodsList(){
         // 调用接口
