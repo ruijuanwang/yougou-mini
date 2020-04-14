@@ -22,6 +22,8 @@
         </view>
       </view>
     </view>
+    <!-- 商品列表加载完毕的时候 显示-->
+    <view class="isend" v-show="isend"> 没有更多商品了哦~ </view>   
   </view>
 </template>
 
@@ -33,8 +35,8 @@
         pagenum:1, // 获取第几页数据 默认第 1 页
         pagesize:20, // 一页请求多少条数据
         total:0 , // 总页数
-        goodsList:[] // 用来接收商品列表数据
-
+        goodsList:[], // 用来接收商品列表数据
+        isend:false // 控制页面显示 没有商品列表的 提示文字
       }
     },
 
@@ -59,8 +61,9 @@
         })
         // await 下面 请求成功的
         console.log('商品列表数据',res);
-        this.goodsList=res.message.goods // 商品列表数据赋值到data数组中       
-        this.total = res.total // 赋值总页码
+        // 1.3 请求来的20条数据 追加合并进数组中 第一页的 第二页的...
+        this.goodsList=[...this.goodsList,...res.message.goods] // 商品列表数据赋值到data数组中       
+        this.total = res.message.total // 赋值总页码
       }
 
     },
@@ -71,11 +74,32 @@
 
       // 2.调用获取商品类表的方法
       this.getGoodsList()
+    },
+    // 上拉加载事件 和钩子函数同级
+    onReachBottom(){
+      // 总有拉到底的时候，我们应该判断 
+      // 商品列表数组长度 this.goodslist === 总页码 total  如果等于 就说明数据加载完了 我们应该return
+      if(this.goodsList.length===this.total){ 
+          this.isend=true // 显示页面加载完毕的提示
+          return 
+        }
+      // 当距离顶部到50px  会触发该事件
+      // console.log('底部了');
+      // 1.拉倒底部，应该去加载更多商品列表数据 调用接口
+      // 1.1 请求 页码+1 的数据 
+      this.pagenum++
+      // 1.2直接调用上次请求 请求20条数据
+      this.getGoodsList()            
     }
+
   }
 </script>
 
 <style scoped lang="scss">
+.isend{
+  width: 310rpx;
+  margin: 0 auto;
+}
   .list{
     padding-top: 100rpx;
   }

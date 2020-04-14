@@ -27,7 +27,11 @@
 			}
 		},
     {
-      "path": "pages/goods/index"
+      "path": "pages/goods/index", // 商品列表页面
+      "style":{
+        "navigationBarTitleText": "商品列表",
+        "onReachBottomDistance":50  // 距离底部50px 触发上拉加载函数
+      }
     },
     {
       "path": "pages/list/index"
