@@ -20,6 +20,7 @@
     </view>
     <!-- 操作 -->
     <view class="action">
+      <!-- open-type属性值为"contact" 点击后就会进入客服会话 -->
       <button open-type="contact" class="icon-handset">联系客服</button>
       <text class="cart icon-cart" @click="goCart">购物车</text>
       <text class="add">加入购物车</text>
