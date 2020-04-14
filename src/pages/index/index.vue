@@ -11,7 +11,8 @@
 				<!-- 轮播图 循环生成-->
 				<swiper-item v-for="(item,index) in swiperdata" :key="index">  
 					<!-- 点击图片要跳转 要用导航组件包裹 -->
-					<navigator url="/pages/goods/index">
+					<!-- 点击轮播图 携带id 去详情页goods -->
+					<navigator :url="'/pages/goods/index?id='+item.goods_id">
 						<image :src="item.image_src"></image>
 					</navigator>
 				</swiper-item>
