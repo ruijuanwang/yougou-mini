@@ -21,7 +21,8 @@
 		<view class="navs">
 			<!-- 导航组件包裹图片 点击图片要跳转  文字和图标是一张图片 -->
 			<!-- 循坏导航 -->
-			<navigator v-for="(item,index) in navslist" :key="index" url="/pages/category/index">
+			<!-- 跳转底部tabbar的其中一个页面要在navigator标签中要加一个属性 open-type='switchTab' -->
+			<navigator  open-type="switchTab" v-for="(item,index) in navslist" :key="index" url="/pages/category/index">
 				<image :src="item.image_src">
 				</image>
 			</navigator>
