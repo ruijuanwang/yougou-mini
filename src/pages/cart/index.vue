@@ -64,7 +64,12 @@
       }
     },
     onLoad(){
-      // 打开页面，应该获取购物车数据 渲染页面 没接口  我们从本地获取购物车信息
+      // // 打开页面，应该获取购物车数据 渲染页面 没接口  我们从本地获取购物车信息
+      // this.carts = uni.getStorageSync('cards') || [] // 获取本地数据 赋值到 data中
+    },
+    onShow(){
+      // 由于onLoad 只会第一次打开会执行 所以要在onShow里面获取数据
+       // 打开页面，应该获取购物车数据 渲染页面 从本地获取购物车信息
       this.carts = uni.getStorageSync('cards') || [] // 获取本地数据 赋值到 data中
     }
     
