@@ -1,15 +1,18 @@
 <template>
   <view class="wrapper">
-    <!-- 收货信息 -->
-    <view class="shipment">
+    <!-- 收货信息 得判断一下 data中有地址信息才显示 否则只显示 添加收货地址按钮-->
+    <view v-if="address" class="shipment">
       <view class="dt">收货人: </view>
       <view class="dd meta">
-        <text class="name">刘德华</text>
-        <text class="phone">13535337057</text>
+        <text class="name">{{ address.userName }}</text>
+        <text class="phone">{{ item.telNumber }}</text>
       </view>
       <view class="dt">收货地址:</view>
-      <view class="dd">广东省广州市天河区一珠吉</view>
+      <!-- 收货地址太长 使用结算属性拼接 -->
+      <view class="dd">{{ detailAddress }}</view>
     </view>
+    <!-- 添加收货地址 -->
+    <button v-else @click="addAddress" type="primary">添加收货地址</button>
     <!-- 购物车 -->
     <view class="carts">
       <view class="item">
@@ -68,7 +71,8 @@
   export default {
     data(){
       return{
-        carts:[] // 用来存 购物车信息的数组
+        carts:[], // 用来存 购物车信息的数组
+        address:null // 接收收货地址对象
       }
     },
     computed:{
@@ -101,7 +105,15 @@
         total+=item.goods_price*item.goods_number       
       })
        return total // 返回总价
-     }
+     },
+    //  用来拼接 收货地址的计算属性
+    detailAddress(){
+      // 需要判断  页面刚进来 是没有地址的(所以没地址的时候 收货地址信息要隐藏在页面) 因为data中的地址 是 调用API 添加收货地址 点击了右上角确认 才会赋值到data中
+      if(this.address){
+        // 表示data中有地址信息
+        return this.address.provinceName + this.address.cityName + this.address.countyName + this.address.detailInfo// 返回收货详细地址
+      }
+    }
     },
     methods:{
       // 1.点击+触发事件
@@ -172,6 +184,18 @@
           })
         }
 
+      },
+      // 6.点击添加收货按钮 时 触发
+      addAddress(){
+        // 点击添加收货地址 获取地址
+        // 小程序中有专门的 API 直接调用 wx.chooseAddress({})
+        uni.chooseAddress({
+          success:res=>{
+            // 点击 收货地址的确认时 进入这里 res就是地址信息对象
+            console.log(res);
+            this.address = res // 赋值到data中            
+          }
+        }) 
       }
 
     },
