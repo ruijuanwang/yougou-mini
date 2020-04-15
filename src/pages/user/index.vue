@@ -10,8 +10,6 @@
         <!-- <text class="nickname">孙悟空</text> -->
         <!-- 2.小程序中的获取个人昵称 也是 open-data 组件 type 为 userNickName -->
         <open-data type="userNickName" class="nickname"></open-data>
-        
-
       </view>
     </view>
     <!-- 统计 -->
@@ -46,7 +44,8 @@
     <!-- 其它 -->
     <view class="extra">
       <view class="item icon-arrow">联系客服</view>
-      <button class="item icon-arrow">意见反馈</button>
+      <!-- 小程序的反馈： 按钮组件中open-type类型改成feedback 小程序后台可查看反馈内容-->
+      <button open-type="feedback" class="item icon-arrow">意见反馈</button>
     </view>
   </view>
 </template>
