@@ -16,7 +16,7 @@
         <!-- 店铺名称 -->
         <view class="shopname">优购生活馆</view>
         <!-- 循环渲染 购物车数据 carts -->
-        <view v-for="item in carts" :key="item.goods_id" class="goods">
+        <view v-for="(item,index) in carts" :key="item.goods_id" class="goods">
           <!-- 商品图片 -->
           <image class="pic" :src="item.goods_small_logo"></image>
           <!-- 商品信息 -->
@@ -30,7 +30,8 @@
               <text class="reduce">-</text>
               <!-- 商品数量 -->
               <input type="number" :value="item.goods_number" class="number">
-              <text class="plus">+</text>
+              <!-- 点击+ 数量加1 触发点击事件 并传入当前商品的索引 -->
+              <text @click="addNum(index)" class="plus">+</text>
             </view>
           </view>
           <!-- 选框 -->
@@ -63,12 +64,26 @@
         carts:[] // 用来存 购物车信息的数组
       }
     },
+    methods:{
+      // 点击+触发事件
+      addNum(index){
+        // index 传入的当前点击的商品索引
+        // 让 数量加1 也就是 cards中的 goods_number+1  他加1了 由于数量goods_number是动态绑定页面的 会实时更新页面的 数据变化视图更新
+        // 但是加之前需要判断 :1.商品数量不能加到大于库存量（假设库存量为 10 件） 如果大于 直接return
+        if(this.carts[index].goods_number>=10){
+          return
+        }
+        this.carts[index].goods_number+=1 // 说明没有大于库存量 此时商品数量+1
+        // 此时只是页面数据cards数组更新 本地缓存中并没有更新  所以我们应该 重新存入本地缓存 同步
+        uni.setStorageSync('cards',this.carts)
+      }
+    },
     onLoad(){
       // // 打开页面，应该获取购物车数据 渲染页面 没接口  我们从本地获取购物车信息
       // this.carts = uni.getStorageSync('cards') || [] // 获取本地数据 赋值到 data中
     },
     onShow(){
-      // 由于onLoad 只会第一次打开会执行 所以要在onShow里面获取数据
+      // 由于onLoad  只会第一次进入页面会执行 第二次不会执行onLoad 那它就会回获取本地最新的数据了 。所以要在onShow里面获取数据
        // 打开页面，应该获取购物车数据 渲染页面 从本地获取购物车信息
       this.carts = uni.getStorageSync('cards') || [] // 获取本地数据 赋值到 data中
     }
