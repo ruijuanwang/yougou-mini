@@ -27,7 +27,8 @@
             </view>
             <!-- 加减 -->
             <view class="amount">
-              <text class="reduce">-</text>
+              <!-- 点击减 传入当前点击索引 数量减1  -->
+              <text @click="reduceNum(index)" class="reduce">-</text>
               <!-- 商品数量 -->
               <input type="number" :value="item.goods_number" class="number">
               <!-- 点击+ 数量加1 触发点击事件 并传入当前商品的索引 -->
@@ -75,6 +76,16 @@
         }
         this.carts[index].goods_number+=1 // 说明没有大于库存量 此时商品数量+1
         // 此时只是页面数据cards数组更新 本地缓存中并没有更新  所以我们应该 重新存入本地缓存 同步
+        uni.setStorageSync('cards',this.carts)
+      },
+      // 点击 - 触发该事件
+      reduceNum(index){
+        // 点击- 的时候 应该把商品数量-1 但是 要判断不能<=-1 
+        if(this.carts[index].goods_number===1){
+          return
+        }
+        this.carts[index].goods_number-=1 // 说明数量>=1 可以继续减 1
+        // 同步到本地
         uni.setStorageSync('cards',this.carts)
       }
     },
