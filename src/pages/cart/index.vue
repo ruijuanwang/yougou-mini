@@ -50,7 +50,8 @@
     <view class="extra">
       <label class="checkall">
 		<!--全选根据计算属性来判断 是全部勾选或者不是全部勾选 allChecked是计算属性 -->
-        <icon type="success" :color="allChecked ?'#ea4451':'#ccc'" size="20"></icon>
+    <!-- 点击全选 图标触发点击事件 -->
+        <icon @click="setAllChecked" type="success" :color="allChecked ?'#ea4451':'#ccc'" size="20"></icon>
         全选
       </label>
       <view class="total">
@@ -142,6 +143,23 @@
         // 点击时候 1.勾选变未勾选 2.未勾选要变成勾选 。
         // 勾选和 未勾选 是通过 goods_checked 来判断的 直接对他取反就好
         this.carts[index].goods_checked=!this.carts[index].goods_checked
+      },
+      // 5.点击全选触发该事件
+      setAllChecked(){
+        // 如果是选中状态 就改为未选中 如果未选中 就改为选中
+        // 通过计算属性中 allChecked 他返回的是布尔值
+        if(this.allChecked){
+          // 说明是true 所有商品应改为 未选中  forEach循坏遍历
+          this.carts.forEach(item=>{
+            item.goods_checked = false
+          })
+        }else{
+          // 说明是false 所有商品应改为 选中
+          this.carts.forEach(item=>{
+            item.goods_checked = true
+          })
+        }
+
       }
 
     },
