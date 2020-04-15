@@ -55,9 +55,11 @@
         全选
       </label>
       <view class="total">
-        合计: <text>￥</text><label>14110</label><text>.00</text>
+        <!-- total 总价 是用计算属性 -->
+        合计: <text>￥</text><label>{{ total }}</label><text>.00</text>
       </view>
-      <view class="pay">结算(3)</view>
+      <!-- 勾选的数量  -->
+      <view class="pay">结算({{ checkedGoods.length }})</view>
     </view>
   </view>
 </template>
@@ -89,7 +91,17 @@
         // 这个计算属性和页面中的 全选图标的color 进行绑定
         return this.carts.length === this.checkedGoods.length // 会返回布尔值 true表示等于 说明勾选 全选状态 否则false 不勾选全选状态
         // 当勾选状态发生变化 计算属性  会实时计算 实时更新
-      }
+      },
+      // total用来计算 总价 合计 我们应该把选中的商品 价格全部加起来
+      // 计算属性中的 checkedGoods 他是全部选中的商品信息 循环他 价格*数量
+     total(){
+       let total = 0 // 总价
+        this.checkedGoods.forEach(item=>{
+          // 总价 = 价格 * 数量
+        total+=item.goods_price*item.goods_number       
+      })
+       return total // 返回总价
+     }
     },
     methods:{
       // 1.点击+触发事件
