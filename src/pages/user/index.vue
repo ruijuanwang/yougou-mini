@@ -3,8 +3,15 @@
     <!-- 个人资料 -->
     <view class="profile">
       <view class="meta">
-        <image class="avatar" src="http://static.botue.com/ugo/uploads/monkey.png"></image>
-        <text class="nickname">孙悟空</text>
+        <!-- <image class="avatar" src="http://static.botue.com/ugo/uploads/monkey.png"></image> -->
+        <!-- 1.小程序中 获取头像 设置用 open-data 组件 type 为 userAvatarUrl 就可以了-->
+        <!--  open-data 组件是行内元素 -->
+        <open-data type="userAvatarUrl" class="avatar"></open-data>
+        <!-- <text class="nickname">孙悟空</text> -->
+        <!-- 2.小程序中的获取个人昵称 也是 open-data 组件 type 为 userNickName -->
+        <open-data type="userNickName" class="nickname"></open-data>
+        
+
       </view>
     </view>
     <!-- 统计 -->
@@ -70,6 +77,8 @@
     .meta {
 
       .avatar {
+        display: block; 
+        overflow: hidden;
         width: 140rpx;
         height: 140rpx;
         border-radius: 50%;
