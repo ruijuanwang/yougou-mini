@@ -49,7 +49,8 @@
     <!-- 其它 -->
     <view class="extra">
       <label class="checkall">
-        <icon type="success" color="#ccc" size="20"></icon>
+		<!--全选根据计算属性来判断 是全部勾选或者不是全部勾选 allChecked是计算属性 -->
+        <icon type="success" :color="allChecked ?'#ea4451':'#ccc'" size="20"></icon>
         全选
       </label>
       <view class="total">
@@ -65,6 +66,28 @@
     data(){
       return{
         carts:[] // 用来存 购物车信息的数组
+      }
+    },
+    computed:{
+      // 计算属性名 ：方法
+      // checkedGoods 计算属性的值 是全部勾选的状态
+      checkedGoods(){
+        // 用来判断cards中 goods_checked 为true的 商品 返回选中的商品
+        // 使用filter 循环数组 他会返回一个满足条件的新数组 checkedGoods
+       let checkedGoods =  this.carts.filter(item=>{
+          // 找到所有勾选的商品
+          return item.goods_checked===true // 找到满足条件的 要返回
+        })
+        // 返回这个新数组 给计算属性 计算属性必须要有返回值
+        return checkedGoods
+      },
+      // allChecked 计算属性的值是个布尔值 
+      allChecked(){
+        // 购物车商品的总数===购物车选中的商品数
+        // 所有商品carts 的数组长度 是否等于 当前勾选的商品 checkedGoods 的数量==> 如果是 那全选按钮应该是勾选的状态
+        // 这个计算属性和页面中的 全选图标的color 进行绑定
+        return this.carts.length === this.checkedGoods.length // 会返回布尔值 true表示等于 说明勾选 全选状态 否则false 不勾选全选状态
+        // 当勾选状态发生变化 计算属性  会实时计算 实时更新
       }
     },
     methods:{
