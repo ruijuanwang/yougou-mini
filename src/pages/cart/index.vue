@@ -40,7 +40,8 @@
           <view class="checkbox">
             <!-- color="#ea4451" 勾选颜色  color="#ccc"  未勾选颜色 根据item.goods_checked 的布尔值来判断-->
             <!-- 默认 true -->
-            <icon type="success" size="20" :color="item.goods_checked ? '#ea4451':'#ccc'"></icon>
+            <!-- 点击图标 勾选变未勾选， 未勾选变勾选 -->
+            <icon @click="toggle(index)" type="success" size="20" :color="item.goods_checked ? '#ea4451':'#ccc'"></icon>
           </view>
         </view>
       </view>
@@ -111,6 +112,13 @@
         this.carts[index].goods_number=val
         // 同步至本地数据
         uni.setStorageSync('cards',this.carts)
+      },
+      // 4.点击勾选图标时触发该事件
+      toggle(index){
+        // index 当前点击商品的索引
+        // 点击时候 1.勾选变未勾选 2.未勾选要变成勾选 。
+        // 勾选和 未勾选 是通过 goods_checked 来判断的 直接对他取反就好
+        this.carts[index].goods_checked=!this.carts[index].goods_checked
       }
 
     },
