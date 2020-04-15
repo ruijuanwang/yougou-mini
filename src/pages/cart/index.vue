@@ -30,7 +30,8 @@
               <!-- 点击减 传入当前点击索引 数量减1  -->
               <text @click="reduceNum(index)" class="reduce">-</text>
               <!-- 商品数量 -->
-              <input type="number" :value="item.goods_number" class="number">
+              <!-- 可以自己输入 输入框发生变化 触发@input事件  -->
+              <input @input="setValue(index,$event)" type="number" :value="item.goods_number" class="number">
               <!-- 点击+ 数量加1 触发点击事件 并传入当前商品的索引 -->
               <text @click="addNum(index)" class="plus">+</text>
             </view>
@@ -66,7 +67,7 @@
       }
     },
     methods:{
-      // 点击+触发事件
+      // 1.点击+触发事件
       addNum(index){
         // index 传入的当前点击的商品索引
         // 让 数量加1 也就是 cards中的 goods_number+1  他加1了 由于数量goods_number是动态绑定页面的 会实时更新页面的 数据变化视图更新
@@ -78,7 +79,7 @@
         // 此时只是页面数据cards数组更新 本地缓存中并没有更新  所以我们应该 重新存入本地缓存 同步
         uni.setStorageSync('cards',this.carts)
       },
-      // 点击 - 触发该事件
+      // 2.点击 - 触发该事件
       reduceNum(index){
         // 点击- 的时候 应该把商品数量-1 但是 要判断不能<=-1 
         if(this.carts[index].goods_number===1){
@@ -87,7 +88,28 @@
         this.carts[index].goods_number-=1 // 说明数量>=1 可以继续减 1
         // 同步到本地
         uni.setStorageSync('cards',this.carts)
+      },
+      // 3.文本输入框 发生变化 触发该事件
+      setValue(index,e){
+        // 会接受两个参数 1.当前点击商品索引 2.事件对象
+        // 输入框发生变化 说明用户手动输入了商品的 数量 我们应该把 输入的数量给到value (value此时绑定的是goods_number) 所以我们只需要修改goods_number的值，然后同步本地数据
+        // 但是修改 数量的之前 得判断一下当前输入的值 ：1.不能大于库存数(假设库存是10) 2.输入的不能是负数
+        // 注意：这里不能用const 因为const 定义的 val 是不能被修改的 es6规定的
+        let val = e.detail.value // 文本框输入的值
+        if(val>=10){
+          // 说明 >=库存量 我们强制让他等于库存量 10
+          val=10
+        }
+        if(val<=1){
+          // 说明是负数 我们强制 让他等于最小数量 1
+          val=1
+        }
+        // 然后把输入的值赋值到文本框的值
+        this.carts[index].goods_number=val
+        // 同步至本地数据
+        uni.setStorageSync('cards',this.carts)
       }
+
     },
     onLoad(){
       // // 打开页面，应该获取购物车数据 渲染页面 没接口  我们从本地获取购物车信息
