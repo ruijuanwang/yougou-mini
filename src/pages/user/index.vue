@@ -52,6 +52,17 @@
 
 <script>
   export default {
+    // 当用户点击右上角的 分享 就会触发该事件 和钩子函数同级
+    onShareAppMessage(){
+      // 默认 本页的截图分享 
+      // 我们可以自己定义分享的内容 返回一个对象 return{}
+      return {
+        title:'震惊！！！吉顺强竟然这么帅！！', // 转发的标题
+        path:'/pages/user/index', // 地址必须以 / 开头 打开进入的页面地址
+        imageUrl:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1955789172,2816986708&fm=26&gp=0.jpg' // 转发时显示的封面图片地址
+      }
+      
+    }
     
   }
 </script>
