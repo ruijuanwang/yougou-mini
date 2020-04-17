@@ -167,6 +167,8 @@
         // 点击时候 1.勾选变未勾选 2.未勾选要变成勾选 。
         // 勾选和 未勾选 是通过 goods_checked 来判断的 直接对他取反就好
         this.carts[index].goods_checked=!this.carts[index].goods_checked
+        // 也要存到本地
+        uni.setStorageSync('cards',this.carts)
       },
       // 5.点击全选触发该事件
       setAllChecked(){
