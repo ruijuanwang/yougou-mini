@@ -62,7 +62,8 @@
         合计: <text>￥</text><label>{{ total }}</label><text>.00</text>
       </view>
       <!-- 勾选的数量  -->
-      <view class="pay">结算({{ checkedGoods.length }})</view>
+      <!-- 点击结算 生成订单 -->
+      <view @click="createOrder" class="pay">结算({{ checkedGoods.length }})</view>
     </view>
   </view>
 </template>
@@ -116,6 +117,35 @@
     }
     },
     methods:{
+      // 点击结算时触发
+      createOrder(){
+        // 结算要生成订单 但是要满足三个条件：1.收货地址不能为空 2.至少选择一种商品 3.登录状态 通过token判断
+        // 1.收货地址不能为空
+        if(!this.address){
+          // 表示没有收货地址 提示消息
+          uni.showToast({ title:'收货地址不能为空！', icon:'none' })
+          // 直接 return 
+          return
+        }
+        // 2.至少选择一种商品
+        if(this.checkedGoods<1){
+           // 表示没有选中任何一种商品  提示消息
+          uni.showToast({ title:'请选择购买的商品！', icon:'none'})
+            // 直接 return 
+          return
+        }
+        // 3.登录状态 通过token判断
+        if(!uni.getStorageSync('token')){
+          // 表示没有登录 应该跳转登录页 登录 获取token
+            uni.showToast({ title:'请登录后再购买',icon:'none'})
+            uni.navigateTo({
+              url:'/pages/auth/index' // 跳转登录页面
+            }) 
+            // return 
+            return        
+        }
+        // 说明三个条件都满足 1.就调用生成订单的接口 2.然后跳转 订单order页面
+      },
       // 1.点击+触发事件
       addNum(index){
         // index 传入的当前点击的商品索引
@@ -197,7 +227,7 @@
         uni.chooseAddress({
           success:res=>{
             // 点击 收货地址的确认时 进入这里 res就是地址信息对象
-            console.log(res);
+            // console.log(res);
             this.address = res // 赋值到data中            
           }
         }) 
