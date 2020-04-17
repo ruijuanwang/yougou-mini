@@ -185,6 +185,9 @@
             item.goods_checked = true
           })
         }
+        // 存本地
+        uni.setStorageSync('cards',this.carts)
+
 
       },
       // 6.点击添加收货按钮 时 触发
