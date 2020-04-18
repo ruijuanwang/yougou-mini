@@ -18,35 +18,44 @@
       <view class="item">
         <!-- 店铺名称 -->
         <view class="shopname">优购生活馆</view>
-        <!-- 循环渲染 购物车数据 carts -->
-        <view v-for="(item,index) in carts" :key="item.goods_id" class="goods">
-          <!-- 商品图片 -->
-          <image class="pic" :src="item.goods_small_logo"></image>
-          <!-- 商品信息 -->
-          <view class="meta">
-            <view class="name">{{item.goods_name}}</view>
-            <view class="price">
-              <text>￥</text>{{item.goods_price}}<text>.00</text>
-            </view>
-            <!-- 加减 -->
-            <view class="amount">
-              <!-- 点击减 传入当前点击索引 数量减1  -->
-              <text @click="reduceNum(index)" class="reduce">-</text>
-              <!-- 商品数量 -->
-              <!-- 可以自己输入 输入框发生变化 触发@input事件  -->
-              <input @input="setValue(index,$event)" type="number" :value="item.goods_number" class="number">
-              <!-- 点击+ 数量加1 触发点击事件 并传入当前商品的索引 -->
-              <text @click="addNum(index)" class="plus">+</text>
-            </view>
-          </view>
-          <!-- 选框 -->
-          <view class="checkbox">
-            <!-- color="#ea4451" 勾选颜色  color="#ccc"  未勾选颜色 根据item.goods_checked 的布尔值来判断-->
-            <!-- 默认 true -->
-            <!-- 点击图标 勾选变未勾选， 未勾选变勾选 -->
-            <icon @click="toggle(index)" type="success" size="20" :color="item.goods_checked ? '#ea4451':'#ccc'"></icon>
-          </view>
-        </view>
+                <!-- 滑动删除商品组件 包裹商品 进行循环 -->
+            <uni-swipe-action>
+              <!-- 应该循环  -->
+              <uni-swipe-action-item  v-for="(item,index) in carts" :key="item.goods_id"  :options="options" @click="onClick(index,$event)">
+                 <!-- 内容 -->
+                  <view class='cont'>
+                       <!-- 循环渲染 购物车数据 carts -->
+                      <view class="goods">
+                        <!-- 商品图片 -->
+                        <image class="pic" :src="item.goods_small_logo"></image>
+                        <!-- 商品信息 -->
+                        <view class="meta">
+                          <view class="name">{{item.goods_name}}</view>
+                          <view class="price">
+                            <text>￥</text>{{item.goods_price}}<text>.00</text>
+                          </view>
+                          <!-- 加减 -->
+                          <view class="amount">
+                            <!-- 点击减 传入当前点击索引 数量减1  -->
+                            <text @click="reduceNum(index)" class="reduce">-</text>
+                            <!-- 商品数量 -->
+                            <!-- 可以自己输入 输入框发生变化 触发@input事件  -->
+                            <input @input="setValue(index,$event)" type="number" :value="item.goods_number" class="number">
+                            <!-- 点击+ 数量加1 触发点击事件 并传入当前商品的索引 -->
+                            <text @click="addNum(index)" class="plus">+</text>
+                          </view>
+                        </view>
+                        <!-- 选框 -->
+                        <view class="checkbox">
+                          <!-- color="#ea4451" 勾选颜色  color="#ccc"  未勾选颜色 根据item.goods_checked 的布尔值来判断-->
+                          <!-- 默认 true -->
+                          <!-- 点击图标 勾选变未勾选， 未勾选变勾选 -->
+                          <icon @click="toggle(index)" type="success" size="20" :color="item.goods_checked ? '#ea4451':'#ccc'"></icon>
+                        </view>
+                      </view>
+                  </view>
+              </uni-swipe-action-item>
+            </uni-swipe-action>
       </view>
     </view>
     <!-- 其它 -->
@@ -65,15 +74,36 @@
       <!-- 点击结算 生成订单 -->
       <view @click="createOrder" class="pay">结算({{ checkedGoods.length }})</view>
     </view>
+
   </view>
 </template>
 
 <script>
+import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
+import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue' // 引入滑动删除组件
   export default {
+    components:{
+      uniSwipeAction,
+      uniSwipeActionItem // 注册滑动删除商品组件
+    },
     data(){
       return{
         carts:[], // 用来存 购物车信息的数组
-        address:null // 接收收货地址对象
+        address:null, // 接收收货地址对象
+        // options 滑动显示的文本信息
+        options:[
+        {
+            text: '取消',
+            style: {
+                backgroundColor: '#007aff'
+            }
+        }, {
+            text: '删除',
+            style: {
+                backgroundColor: '#dd524d'
+            }
+        }
+      ]
       }
     },
     computed:{
@@ -117,6 +147,20 @@
     }
     },
     methods:{
+      // 滑动按钮点击时触发
+      onClick(index,e){
+    //  index 是点击的索引  e是事件对象
+    // 删除点击的索引
+    if(e.content.text==='删除'){
+      this.carts.splice(index,1) // 删除
+      // 还要同步本地
+      uni.setStorageSync('cards',this.carts)
+    }else{
+      console.log('点击了取消');
+      
+    }
+    },
+    
       // 点击结算时触发
       createOrder(){
         // 结算要生成订单 但是要满足三个条件：1.收货地址不能为空 2.至少选择一种商品 3.登录状态 通过token判断

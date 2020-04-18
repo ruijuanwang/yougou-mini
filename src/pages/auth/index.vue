@@ -33,6 +33,9 @@
            var res = await this.http({
               url:'/api/public/v1/users/wxlogin',
               method:'POST',
+               header:{
+                  Authorization:uni.getStorageSync('token') // 请求头注入token
+              },
               data:{
                   code:res.code,
                   encryptedData:user.encryptedData,
@@ -42,19 +45,19 @@
               }
 
             })
-            // 成功 这里会报错  因为开发者用的appid账号是自己的  后端用的appid 是 公司的 所以会报错 。我们需要修改appid 改成公司的 前后appid一致了 还有在公司的后台把 开发成员 我的微信添加到成员管理 
+            // 1.成功 这里会报错  因为开发者用的appid账号是自己的  后端用的appid 是 公司的 所以会报错 。我们需要修改appid 改成公司的 前后appid一致了 还有在公司的后台把 开发成员 我的微信添加到成员管理 
             console.log(res);
-            
-
+            // 2.如果res中的状态码是 200 说明登录成功 后台返回的数据中有个token， 我们应该存入本地 
+            // 。。。代码略
+            // 3.我们应该跳转上次购物车页面点击 结算的页面 进行结算的功能实现 
+            // 可以直接跳转购物车页面 cart 
+            // 或者 直接返回上一页
+            uni.navigateBack() // 返回上一页
+            // 现在我们有token 了     
           }
-        })
- 
-        
-
-        
+        })        
       }
     }
-
   }
 </script>
 

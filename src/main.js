@@ -17,9 +17,7 @@ Vue.prototype.http=async function(options){
     url: baseURL+options.url,
     data:options.data,
     method: options.method?options.method:'GET',
-    header:{
-      Authorization:uni.getStorageSync('token') // 请求头注入token
-    }
+   
   })
   // 发送成功之后 隐藏loading
   wx.hideLoading()
